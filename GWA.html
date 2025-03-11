@@ -1,0 +1,219 @@
+{% extends "layout.html" %}
+
+{% block title %}GWA Checker{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-4">
+                <h1 class="display-5 mb-3">GWA Checker</h1>
+                <p class="lead">Calculate your General Weighted Average (GWA) by entering your grades and units</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- GWA Input Form -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-calculator me-2"></i>Add Subjects</h3>
+            </div>
+            <div class="card-body">
+                <form id="subject-form">
+                    <div class="mb-3">
+                        <label for="subject-name" class="form-label">Subject Name</label>
+                        <input type="text" class="form-control" id="subject-name" placeholder="e.g., Mathematics" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="subject-grade" class="form-label">Grade</label>
+                            <input type="number" class="form-control" id="subject-grade" min="1.0" max="5.0" step="0.25" placeholder="1.0 - 5.0" required>
+                            <div class="form-text">Enter grade between 1.0 and 5.0</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="subject-units" class="form-label">Units</label>
+                            <input type="number" class="form-control" id="subject-units" min="1" max="6" placeholder="1-6" required>
+                            <div class="form-text">Enter the number of units</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Add Subject</button>
+                </form>
+                
+                <div class="d-flex justify-content-between mt-4">
+                    <button id="calculate-gwa" class="btn btn-success">Calculate GWA</button>
+                    <button id="reset-subjects" class="btn btn-danger">Reset All</button>
+                </div>
+                
+                <div class="mt-4">
+                    <h4>Grade System Information</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            1.00 - 1.25
+                            <span class="badge bg-success rounded-pill">Excellent</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            1.50 - 1.75
+                            <span class="badge bg-primary rounded-pill">Very Good</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            2.00 - 2.25
+                            <span class="badge bg-info rounded-pill">Good</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            2.50 - 2.75
+                            <span class="badge bg-warning text-dark rounded-pill">Satisfactory</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            3.00
+                            <span class="badge bg-warning text-dark rounded-pill">Passing</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            5.00
+                            <span class="badge bg-danger rounded-pill">Failed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Panel -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-info text-white">
+                <h3 class="mb-0"><i class="fas fa-chart-line me-2"></i>Your GWA Results</h3>
+            </div>
+            <div class="card-body">
+                <div id="results-container" class="text-center py-5">
+                    <div id="empty-state">
+                        <i class="fas fa-graduation-cap fa-3x mb-3 text-muted"></i>
+                        <h4 class="text-muted">No subjects added yet</h4>
+                        <p>Add subjects using the form to calculate your GWA</p>
+                    </div>
+                    
+                    <div id="results-display" class="d-none">
+                        <div class="display-1 fw-bold mb-2" id="gwa-result">0.00</div>
+                        <div class="h3 mb-4" id="gwa-performance"></div>
+                        
+                        <div class="progress mb-4" style="height: 30px;">
+                            <div class="progress-bar" id="gwa-progress-bar" role="progressbar" style="width: 0%;" 
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-6">
+                                        <h5>Total Units</h5>
+                                        <div class="h3" id="total-units">0</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h5>Total Subjects</h5>
+                                        <div class="h3" id="total-subjects">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <span id="advice-text">Add more subjects to calculate your GWA accurately.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Subject List Section -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="fas fa-list me-2"></i>Subject List</h3>
+                <div>
+                    <button id="export-data" class="btn btn-outline-light btn-sm">Export Data</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject</th>
+                                <th>Grade</th>
+                                <th>Units</th>
+                                <th>Quality Points</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subject-list">
+                            <!-- Subject list will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="table-empty-state" class="text-center py-5">
+                    <i class="fas fa-book fa-3x mb-3 text-muted"></i>
+                    <h4 class="text-muted">No subjects added yet</h4>
+                    <p>Add subjects using the form to see them listed here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Condition Variables Explanation Card -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-code me-2"></i>Condition Variables in the GWA Calculator</h3>
+            </div>
+            <div class="card-body">
+                <p>This GWA calculator demonstrates the use of condition variables for grade assessment. Here's how condition variables are used:</p>
+                <pre class="bg-dark text-light p-3 rounded"><code>// Determining grade performance based on GWA value
+if (gwa >= 1.0 && gwa <= 1.25) {
+    performance = "Excellent";
+    progressBarClass = "bg-success";
+} else if (gwa >= 1.5 && gwa <= 1.75) {
+    performance = "Very Good";
+    progressBarClass = "bg-primary";
+} else if (gwa >= 2.0 && gwa <= 2.25) {
+    performance = "Good";
+    progressBarClass = "bg-info";
+} else if (gwa >= 2.5 && gwa <= 2.75) {
+    performance = "Satisfactory";
+    progressBarClass = "bg-warning";
+} else if (gwa == 3.0) {
+    performance = "Passing";
+    progressBarClass = "bg-warning";
+} else if (gwa == 5.0) {
+    performance = "Failed";
+    progressBarClass = "bg-danger";
+}</code></pre>
+                <p>When calculating the quality points, we use mathematical operations with condition checking:</p>
+                <pre class="bg-dark text-light p-3 rounded"><code>// Calculating quality points for each subject
+function calculateQualityPoints(grade, units) {
+    // We need to validate input first
+    if (grade < 1.0 || grade > 5.0) {
+        return 0; // Invalid grade
+    }
+    
+    // Calculate quality points using the formula: grade × units
+    return grade * units;
+}</code></pre>
+                <p class="mt-3">To learn more about condition variables and practice with more examples, visit the <a href="/condition-variables">Condition Variables</a> page.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gwa-checker.js') }}"></script>
+{% endblock %}
