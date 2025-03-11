@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block title %}Educational Programming - Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body text-center py-5">
+                <h1 class="display-4 mb-4">Welcome to Educational Programming</h1>
+                <p class="lead">Learn about programming concepts through interactive examples</p>
+                <div class="mt-4">
+                    <a href="/attendance" class="btn btn-lg btn-primary me-2">Attendance System</a>
+                    <a href="/condition-variables" class="btn btn-lg btn-info me-2">Condition Variables</a>
+                    <a href="/gwa-checker" class="btn btn-lg btn-success">GWA Checker</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-user-check me-2"></i>
+                            Attendance System
+                        </h3>
+                        <p class="card-text">An interactive attendance tracker that allows you to:</p>
+                        <ul>
+                            <li>Create student IDs with attendance status</li>
+                            <li>Search for students to check their attendance</li>
+                            <li>View a list of all students and their attendance status</li>
+                            <li>See conditional logic in action for attendance tracking</li>
+                        </ul>
+                        <a href="/attendance" class="btn btn-outline-primary mt-3">Try it</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-code-branch me-2"></i>
+                            Condition Variables
+                        </h3>
+                        <p class="card-text">Learn about condition variables in programming:</p>
+                        <ul>
+                            <li>Understand what condition variables are and how they work</li>
+                            <li>See examples of different condition types</li>
+                            <li>Create your own conditions and test them</li>
+                            <li>Save and load your conditions for future reference</li>
+                        </ul>
+                        <a href="/condition-variables" class="btn btn-outline-info mt-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-calculator me-2"></i>
+                            GWA Checker
+                        </h3>
+                        <p class="card-text">Calculate your General Weighted Average with this tool:</p>
+                        <ul>
+                            <li>Add subjects with their corresponding grades and units</li>
+                            <li>Calculate GWA based on Philippine grading system</li>
+                            <li>Track your academic performance with visual indicators</li>
+                            <li>Export your data for future reference</li>
+                        </ul>
+                        <a href="/gwa-checker" class="btn btn-outline-success mt-3">Calculate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h3 class="mb-3">About This Project</h3>
+                <p>This educational website was created to help students understand important programming concepts through hands-on examples. The website focuses on:</p>
+                <ul>
+                    <li><strong>Practical examples:</strong> Real-world applications of programming concepts</li>
+                    <li><strong>Interactive learning:</strong> Try out the concepts yourself</li>
+                    <li><strong>Visual feedback:</strong> See the results of your code in action</li>
+                    <li><strong>Commented code:</strong> Learn from well-documented examples</li>
+                </ul>
+                <p>Use this website as a supplement to your programming education, and explore the different examples to deepen your understanding of key concepts.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
